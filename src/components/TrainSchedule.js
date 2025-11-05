@@ -2,6 +2,10 @@ import React from 'react';
 import { Train } from 'lucide-react';
 
 const TrainSchedule = ({ currentScenario, trainLoad }) => {
+  const carriageCount = currentScenario.trainCarriages || 3;
+  const trainConfig = currentScenario.trainConfig || "Class 387 - 3 carriages";
+  const totalCapacity = carriageCount * 60;
+
   return (
     <div className="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700">
       <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
@@ -19,7 +23,7 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
               </div>
               <div>
                 <div className="text-green-400 font-bold">LONDON PADDINGTON</div>
-                <div className="text-xs text-green-300">Service 1W15 • 3 Cars • Class 387</div>
+                <div className="text-xs text-green-300">{trainConfig}</div>
               </div>
             </div>
             <div className="text-right">
@@ -27,22 +31,40 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
               <div className="text-xs text-green-300">On Time</div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-xs">
+          
+          <div className="flex items-center justify-between text-xs mb-2">
             <div className="flex items-center gap-2">
               <span className="text-green-300">Ticket Sales:</span>
               <span className={`px-2 py-1 rounded font-medium ${
-                currentScenario.name === 'Concert Event' ? 'bg-red-500/30 text-red-300' :
-                currentScenario.name === 'Rugby Match + Rain' ? 'bg-yellow-500/30 text-yellow-300' :
+                currentScenario.name === 'Concert Event' || 
+                currentScenario.name === 'Taylor Swift Concert + Football' ? 'bg-red-500/30 text-red-300' :
+                currentScenario.name === 'Rugby Match + Rain' ||
+                currentScenario.name === 'Champions League + Rain' ? 'bg-yellow-500/30 text-yellow-300' :
+                currentScenario.name === 'School Hours + Rain' ||
+                currentScenario.name === 'University Graduation' ? 'bg-orange-500/30 text-orange-300' :
                 'bg-green-500/30 text-green-300'
               }`}>
-                {currentScenario.name === 'Concert Event' ? 'VERY HIGH' :
-                 currentScenario.name === 'Rugby Match + Rain' ? 'HIGH' :
-                 currentScenario.name === 'School Hours + Rain' ? 'MEDIUM' : 'NORMAL'}
+                {currentScenario.name === 'Concert Event' || 
+                 currentScenario.name === 'Taylor Swift Concert + Football' ? 'VERY HIGH' :
+                 currentScenario.name === 'Rugby Match + Rain' ||
+                 currentScenario.name === 'Champions League + Rain' ? 'HIGH' :
+                 currentScenario.name === 'School Hours + Rain' ||
+                 currentScenario.name === 'University Graduation' ? 'MEDIUM' : 'NORMAL'}
               </span>
             </div>
             <div className="text-green-300">
-              Load: {Object.values(trainLoad).reduce((a, b) => a + b, 0)}/180 passengers
+              Load: {Object.values(trainLoad).reduce((a, b) => a + b, 0)}/{totalCapacity} passengers
             </div>
+          </div>
+
+          {/* Dynamic carriage display */}
+          <div className="mt-2 grid gap-1" style={{ gridTemplateColumns: `repeat(${carriageCount}, 1fr)` }}>
+            {Array.from({ length: carriageCount }, (_, i) => (
+              <div key={i} className="bg-slate-700 rounded p-1 text-center text-xs">
+                <div className="text-white">Car {i + 1}</div>
+                <div className="text-green-400">{trainLoad[`carriage${i + 1}`] || 0}</div>
+              </div>
+            ))}
           </div>
         </div>
 
