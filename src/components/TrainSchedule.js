@@ -2,9 +2,23 @@ import React from 'react';
 import { Train } from 'lucide-react';
 
 const TrainSchedule = ({ currentScenario, trainLoad }) => {
-  const carriageCount = currentScenario.trainCarriages || 3;
-  const trainConfig = currentScenario.trainConfig || "Class 387 - 3 carriages";
-  const totalCapacity = carriageCount * 60;
+  const { 
+    headCode = "1A01", 
+    operator = "GWR", 
+    destination = "LONDON PADDINGTON",
+    class: trainClass = "387", 
+    carriages = 3 
+  } = currentScenario.trainConfig || {};
+
+  const getCapacityPerCarriage = (trainClass) => {
+    if (trainClass === "800" || trainClass === "802") return 75;
+    if (trainClass === "221" || trainClass === "220") return 65;
+    if (trainClass === "387") return 60;
+    return 60;
+  };
+  
+  const totalCapacity = carriages * getCapacityPerCarriage(trainClass);
+  const fullTrainConfigString = `Operated by ${operator} • ${carriages} Car Class ${trainClass}`;
 
   return (
     <div className="bg-slate-800/50 backdrop-blur rounded-xl p-6 border border-slate-700">
@@ -22,8 +36,13 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
                 🚂
               </div>
               <div>
-                <div className="text-green-400 font-bold">LONDON PADDINGTON</div>
-                <div className="text-xs text-green-300">{trainConfig}</div>
+                <div className="text-green-400 font-bold flex items-center gap-2">
+                  <span className="bg-yellow-400 text-black px-1.5 py-0.5 rounded text-sm font-mono">
+                    {headCode}
+                  </span>
+                  <span>{destination}</span>
+                </div>
+                <div className="text-xs text-green-300">{fullTrainConfigString}</div>
               </div>
             </div>
             <div className="text-right">
@@ -57,9 +76,8 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
             </div>
           </div>
 
-          {/* Dynamic carriage display */}
-          <div className="mt-2 grid gap-1" style={{ gridTemplateColumns: `repeat(${carriageCount}, 1fr)` }}>
-            {Array.from({ length: carriageCount }, (_, i) => (
+          <div className="mt-2 grid gap-1" style={{ gridTemplateColumns: `repeat(${carriages}, 1fr)` }}>
+            {Array.from({ length: carriages }, (_, i) => (
               <div key={i} className="bg-slate-700 rounded p-1 text-center text-xs">
                 <div className="text-white">Car {i + 1}</div>
                 <div className="text-green-400">{trainLoad[`carriage${i + 1}`] || 0}</div>
@@ -76,21 +94,17 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
                 🚂
               </div>
               <div>
-                <div className="text-yellow-400 font-bold">BRISTOL PARKWAY</div>
-                <div className="text-xs text-yellow-300">Service 1C78 • 4 Cars • Class 800</div>
+                <div className="text-yellow-400 font-bold flex items-center gap-2">
+                  <span className="bg-yellow-400 text-black px-1.5 py-0.5 rounded text-sm font-mono">2M14</span>
+                  <span>CARDIFF CENTRAL</span>
+                </div>
+                <div className="text-xs text-yellow-300">Operated by GWR • 5 Car Class 802</div>
               </div>
             </div>
             <div className="text-right">
               <div className="text-yellow-400 font-bold text-lg">6 MIN</div>
               <div className="text-xs text-yellow-300">Expected</div>
             </div>
-          </div>
-          <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <span className="text-yellow-300">Ticket Sales:</span>
-              <span className="px-2 py-1 rounded font-medium bg-green-500/30 text-green-300">LOW</span>
-            </div>
-            <div className="text-yellow-300">Load: 68/240 passengers</div>
           </div>
         </div>
 
@@ -102,21 +116,17 @@ const TrainSchedule = ({ currentScenario, trainLoad }) => {
                 🚂
               </div>
               <div>
-                <div className="text-blue-400 font-bold">LONDON PADDINGTON</div>
-                <div className="text-xs text-blue-300">Service 1W17 • 3 Cars • Class 387</div>
+                <div className="text-blue-400 font-bold flex items-center gap-2">
+                  <span className="bg-yellow-400 text-black px-1.5 py-0.5 rounded text-sm font-mono">1S51</span>
+                  <span>GLASGOW CENTRAL</span>
+                </div>
+                <div className="text-xs text-blue-300">Operated by CrossCountry • 4 Car Class 220</div>
               </div>
             </div>
             <div className="text-right">
               <div className="text-blue-400 font-bold text-lg">18 MIN</div>
               <div className="text-xs text-blue-300">Scheduled</div>
             </div>
-          </div>
-          <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              <span className="text-blue-300">Ticket Sales:</span>
-              <span className="px-2 py-1 rounded font-medium bg-yellow-500/30 text-yellow-300">MEDIUM</span>
-            </div>
-            <div className="text-blue-300">Pre-book: 95/180 seats</div>
           </div>
         </div>
       </div>

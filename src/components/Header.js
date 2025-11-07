@@ -1,7 +1,9 @@
+// src/components/Header.js
 import React from 'react';
-import { RefreshCw, Play, Pause, Video } from 'lucide-react';
+import { RefreshCw, Play, Pause, Video, ArrowLeft } from 'lucide-react';
 
 const Header = ({ 
+  onGoBack, 
   onShowVideo, 
   onRefreshScenario, 
   isPaused, 
@@ -10,11 +12,21 @@ const Header = ({
 }) => {
   return (
     <div className="flex justify-between items-center mb-6">
-      <div>
-        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-          Intelligent Platform Nudging System
-        </h1>
-        <p className="text-slate-300">Bristol Temple Meads - Platform 9</p>
+      <div className="flex items-center gap-4">
+        {/* Back button */}
+        <button
+          onClick={onGoBack}
+          className="flex items-center gap-2 px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded-lg font-medium transition-all"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </button>
+        <div>
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            Intelligent Platform Nudging System
+          </h1>
+          <p className="text-slate-300">Bristol Temple Meads - Platform 9</p>
+        </div>
       </div>
       <div className="flex items-center gap-4">
         <button

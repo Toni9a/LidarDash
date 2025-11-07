@@ -1,3 +1,4 @@
+// src/components/VideoModal.js
 import React from 'react';
 
 const VideoModal = ({ showVideo, onClose }) => {
@@ -19,12 +20,10 @@ const VideoModal = ({ showVideo, onClose }) => {
           controls
           autoPlay
           className="w-full rounded-lg"
-          src="/videos/lidar-platform.mp4"
+          // MODIFIED: The video source is now lidarvid1.mp4
+          src="/assets/videos/lidarvid1.mp4"
         >
           Your browser does not support the video tag.
-          <p className="text-white mt-4">
-            Please add your LiDAR video to public/videos/lidar-platform.mp4
-          </p>
         </video>
       </div>
     </div>
