@@ -140,26 +140,30 @@ const LandingPage = ({ onLaunch }) => {
         </div>
 
         <div className="max-w-7xl mx-auto p-8 space-y-20">
-          {/* ... (The Problem & The Solution, Key Concepts sections remain unchanged) ... */}
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div className="relative group">
+          {/* The Problem & The Solution */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            {/* Dwell Time Bottleneck - Inverse Hover */}
+            <div>
               <h2 className="text-3xl font-bold mb-4 text-sky-300">The Dwell Time Bottleneck</h2>
-              <p className="text-slate-400 leading-relaxed mb-4">
-                  Train dwell time—the period a train is stopped at a platform—is a critical operational bottleneck. Even minor delays can cascade through the network, causing significant disruption. While a metro service like the Thameslink core is timed for a 60-second stop, longer-distance Intercity trains require at least 2-3 minutes. Passenger distribution and boarding rate is tackled to reduce said dwell time- by means of nudging.
-              </p>
-              <div className="absolute -left-12 top-1/2 -translate-y-1/2 w-80 h-auto p-2 bg-slate-700/50 backdrop-blur-md rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 group-hover:-translate-y-[60%] transition-all duration-300 pointer-events-none">
-                  <div className="bg-white rounded-md p-2">
-                  <img src="/assets/images/dwell-diagram.png" alt="Dwell Time Components" className="rounded-sm w-full h-auto object-cover" />
-                  </div>
+              <div className="relative group h-64 rounded-lg overflow-hidden bg-white p-4">
+                <img src="/assets/images/dwell-diagram.png" alt="Dwell Time Components" className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-50" />
+                <div className="absolute inset-0 p-6 flex flex-col justify-center bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-slate-300 leading-relaxed text-center">
+                    Train dwell time—the period a train is stopped at a platform—is a critical operational bottleneck. Even minor delays can cascade through the network, causing significant disruption. While a metro service like the Thameslink is timed for a 60-second stop, longer-distance Intercity trains require at least 2-3 minutes. Passenger distribution and boarding rate is tackled to reduce said dwell time- by means of nudging.
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="relative group">
+            {/* An Intelligent Solution - Inverse Hover */}
+            <div>
               <h2 className="text-3xl font-bold mb-4 text-amber-300">An Intelligent Solution</h2>
-              <p className="text-slate-400 leading-relaxed">
-                The research conducted was modelling the impact of differing Nudge compliance rates. In this system, real-time data APC data is used to actively guide passengers. By fusing static train load data with live platform crowding information from LiDAR sensors, an AI model recommends and executes targeted behavioural "nudges" to balance passenger distribution before the train arrives, directly addressing the root cause of inefficient boarding.
-              </p>
-              <div className="absolute -right-12 top-1/2 -translate-y-1/2 w-64 h-auto p-2 bg-slate-700/50 backdrop-blur-md rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 group-hover:-translate-y-[60%] transition-all duration-300 pointer-events-none">
-                <img src="/assets/images/intelsolpic.png" alt="Intelligent Solution Diagram" className="rounded-md w-full h-auto object-cover" />
+              <div className="relative group h-64 rounded-lg overflow-hidden">
+                <img src="/assets/images/intelsolpic.png" alt="Intelligent Solution Diagram" className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-50" />
+                <div className="absolute inset-0 p-6 flex flex-col justify-center bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-slate-300 leading-relaxed text-center">
+                    The research conducted was modelling the impact of differing Nudge compliance rates. In this system, real-time data APC data is used to actively guide passengers. By fusing static train load data with live platform crowding information from LiDAR sensors, an AI model recommends and executes targeted behavioural "nudges" to balance passenger distribution before the train arrives, directly addressing the root cause of inefficient boarding.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
