@@ -1,5 +1,7 @@
 // src/components/landing/LandingPage.js
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import TrainToggle from '../TrainToggle';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import { Cpu, Users, FileText, PlayCircle, Zap, ScanLine, Lightbulb, CheckCircle, ShieldAlert, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Reusable Modal Component (remains unchanged)
@@ -88,6 +90,7 @@ const Carousel = ({ title, media }) => {
 
 
 const LandingPage = ({ onLaunch }) => {
+  const { theme } = useContext(ThemeContext);
   // ... (State and handlers remain unchanged)
   const [modalImages, setModalImages] = useState([]);
   const [isLidarHovered, setIsLidarHovered] = useState(false);
@@ -109,30 +112,70 @@ const LandingPage = ({ onLaunch }) => {
   return (
     <>
       <ImageModal images={modalImages} onClose={closeModal} />
-      <div className="min-h-screen bg-slate-900 text-white">
+      <div className="min-h-screen" style={{ backgroundColor: theme === 'light' ? '#f0fdfa' : 'inherit' }}>
         {/* Hero Section */}
         <div 
           className="relative text-center py-20 px-4 overflow-hidden bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/images/hero-background.jpg')" }}
+          style={{ 
+            backgroundImage: `url('/assets/images/${theme === 'light' ? 'hero-backgroundD.jpg' : 'hero-background.jpg'}')` 
+          }}
         >
-          {/* ... (Hero section content remains unchanged) ... */}
-          <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-none"></div>
+          {/* Toggle Button */}
+          <div className="absolute top-6 right-6 z-20">
+            <TrainToggle />
+          </div>
+          
+          {/* Removed the dark overlay shadow */}
+          <div className="absolute inset-0 backdrop-blur-none" 
+               style={{ backgroundColor: theme === 'light' ? 'rgba(240, 253, 250, 0.7)' : 'rgba(15, 23, 42, 0.7)' }}></div>
+          
           <div className="relative z-10">
             <div className="flex justify-center items-center gap-8 mb-8">
               <img src="/assets/images/cranfieldlogo.png" alt="Cranfield University Logo" className="h-12 w-auto opacity-50 mix-blend-luminosity" />
               <img src="/assets/images/rssblogo.jpg" alt="RSSB Logo" className="h-12 w-auto opacity-50 mix-blend-luminosity" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300 mb-4">
+            
+            {/* Title with explicit colors that work with your CSS variables */}
+            <h1 className="text-5xl md:text-6xl font-bold mb-4" 
+                style={{ 
+                  color: theme === 'light' ? '#0369a1' : '#7dd3fc',
+                  backgroundImage: theme === 'light' 
+                    ? 'linear-gradient(to right, #0369a1, #0891b2)' 
+                    : 'linear-gradient(to right, #7dd3fc, #22d3ee)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}>
               Facilitating Rail Dwell Time Improvement
             </h1>
-            <p className="max-w-3xl mx-auto text-lg text-slate-300 mb-8">
-              A Demonstration of how machine vision, behavioural nudging (Displays, Audio, Mobile notifications), and AI context can optimize passenger flow and enhance railway efficiency.
+            
+            {/* Description with darker text in light mode */}
+            <p className="max-w-3xl mx-auto text-lg mb-8" 
+               style={{ color: theme === 'light' ? '#1e293b' : '#94a3b8' }}>
+              A Demonstration of how machine vision, behavioural nudging (Displays, Audio, Mobile notifications), and AI context can optimize passenger flow and enhance railway efficiency. Evoked from Toni Esan IRP into nudging impact using LiDAR. 
             </p>
+            
             <div className="flex justify-center gap-4">
-              <button onClick={onLaunch} className="px-8 py-3 bg-sky-600 hover:bg-sky-700 rounded-lg font-semibold transition-transform transform hover:scale-105 flex items-center gap-2">
+              <button 
+                onClick={onLaunch} 
+                className="px-8 py-3 rounded-lg font-semibold transition-transform transform hover:scale-105 flex items-center gap-2"
+                style={{ 
+                  backgroundColor: theme === 'light' ? '#0ea5e9' : '#0284c7',
+                  color: 'white'
+                }}
+              >
                 <PlayCircle className="w-5 h-5" /> Launch Interactive Demo
               </button>
-              <a href="/assets/pdf/research-draft.pdf" target="_blank" rel="noopener noreferrer" className="px-8 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-transform transform hover:scale-105 flex items-center gap-2">
+              <a 
+                href="/assets/pdf/research-draft.pdf" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="px-8 py-3 rounded-lg font-semibold transition-transform transform hover:scale-105 flex items-center gap-2"
+                style={{ 
+                  backgroundColor: theme === 'light' ? '#e2e8f0' : '#334155',
+                  color: theme === 'light' ? '#1e293b' : 'white'
+                }}
+              >
                 <FileText className="w-5 h-5" /> Read The Research
               </a>
             </div>
@@ -144,7 +187,7 @@ const LandingPage = ({ onLaunch }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
             {/* Dwell Time Bottleneck - Inverse Hover */}
             <div>
-              <h2 className="text-3xl font-bold mb-4 text-sky-300">The Dwell Time Bottleneck</h2>
+              <h2 className="text-3xl font-bold mb-4" style={{ color: '#7dd3fc' }}>The Dwell Time Bottleneck</h2>
               <div className="relative group h-64 rounded-lg overflow-hidden bg-white p-4">
                 <img src="/assets/images/dwell-diagram.png" alt="Dwell Time Components" className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-50" />
                 <div className="absolute inset-0 p-6 flex flex-col justify-center bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -156,7 +199,7 @@ const LandingPage = ({ onLaunch }) => {
             </div>
             {/* An Intelligent Solution - Inverse Hover */}
             <div>
-              <h2 className="text-3xl font-bold mb-4 text-amber-300">An Intelligent Solution</h2>
+              <h2 className="text-3xl font-bold mb-4" style={{ color: '#fcd34d' }}>An Intelligent Solution</h2>
               <div className="relative group h-64 rounded-lg overflow-hidden">
                 <img src="/assets/images/intelsolpic.png" alt="Intelligent Solution Diagram" className="absolute inset-0 w-full h-full object-contain transition-all duration-300 group-hover:scale-105 group-hover:brightness-50" />
                 <div className="absolute inset-0 p-6 flex flex-col justify-center bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -169,27 +212,35 @@ const LandingPage = ({ onLaunch }) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div 
-              className="bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-sky-500 transition-all relative overflow-hidden"
+              className="p-6 rounded-lg border transition-all relative overflow-hidden"
+              style={{ 
+                backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(30, 41, 59, 0.5)',
+                borderColor: theme === 'light' ? '#e2e8f0' : '#334155'
+              }}
               onMouseEnter={() => handleLidarHover(true)}
               onMouseLeave={() => handleLidarHover(false)}
             >
               <video ref={lidarVideoRef} loop muted playsInline className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isLidarHovered ? 'opacity-20' : 'opacity-0'}`} src="/assets/videos/lidarsense.mp4"></video>
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-3">
-                  <ScanLine className="w-8 h-8 text-sky-400" />
-                  <h3 className="text-xl font-semibold">Advanced Sensing with LiDAR</h3>
+                  <ScanLine className="w-8 h-8" style={{ color: theme === 'light' ? '#0369a1' : '#7dd3fc' }} />
+                  <h3 className="text-xl font-semibold" style={{ color: theme === 'light' ? '#1e293b' : 'white' }}>Advanced Sensing with LiDAR</h3>
                 </div>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm" style={{ color: theme === 'light' ? '#374151' : '#94a3b8' }}>
                   LiDAR is a proven technology, trusted in critical applications like autonomous vehicles, for anonymously tracking crowd flow. This project's simulation model was grounded in real-world LiDAR data provided by **Createc** from their trial at Bristol Temple Meads, enabling the identification of passenger archetypes (e.g., cyclists, wheelchair users) to dynamically adjust boarding rate calculations. Furthermore a baseline of walking behaviour can help establish behavioural archetypes as modelled in the research.
                 </p>
               </div>
             </div>
-            <div className="relative group bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-amber-500 transition-all">
+            <div className="relative group p-6 rounded-lg border transition-all"
+                 style={{ 
+                   backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(30, 41, 59, 0.5)',
+                   borderColor: theme === 'light' ? '#e2e8f0' : '#334155'
+                 }}>
               <div className="flex items-center gap-3 mb-3">
-                <Users className="w-8 h-8 text-amber-400" />
-                <h3 className="text-xl font-semibold">Nudge Effectiveness & Behavior</h3>
+                <Users className="w-8 h-8" style={{ color: theme === 'light' ? '#d97706' : '#fcd34d' }} />
+                <h3 className="text-xl font-semibold" style={{ color: theme === 'light' ? '#1e293b' : 'white' }}>Nudge Effectiveness & Behavior</h3>
               </div>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm" style={{ color: theme === 'light' ? '#374151' : '#94a3b8' }}>
               The research was modeled using agent-based simulation in AnyLogic, drawing on passenger pyschology, movement patterns, station design and crowding huersitcs. Main focus was to determine if nudging the population would decrease dwell time & crowding for safety. It revealed a non-linear relationship between nudge compliance and dwell time. Optimal performance (a ~15% boarding time reduction) was achieved at an around 80% compliance rate. A 100% "perfect" nudge was counter-productive, creating a new bottleneck. In practice to nudge a population to 80% compliance multiple methods (LEDs, audio, Mobile notifications) examples shown below are used.
               </p>
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[200%] max-w-lg p-2 bg-slate-700/50 backdrop-blur-md rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-20">
@@ -199,12 +250,16 @@ const LandingPage = ({ onLaunch }) => {
                 </div>
               </div>
             </div>
-            <div className="relative group bg-slate-800/50 p-6 rounded-lg border border-slate-700 hover:border-green-500 transition-all">
+            <div className="relative group p-6 rounded-lg border transition-all"
+                 style={{ 
+                   backgroundColor: theme === 'light' ? '#ffffff' : 'rgba(30, 41, 59, 0.5)',
+                   borderColor: theme === 'light' ? '#e2e8f0' : '#334155'
+                 }}>
               <div className="flex items-center gap-3 mb-3">
-                <Cpu className="w-8 h-8 text-green-400" />
-                <h3 className="text-xl font-semibold">AI Decision Engine</h3>
+                <Cpu className="w-8 h-8" style={{ color: theme === 'light' ? '#059669' : '#10b981' }} />
+                <h3 className="text-xl font-semibold" style={{ color: theme === 'light' ? '#1e293b' : 'white' }}>AI Decision Engine</h3>
               </div>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm" style={{ color: theme === 'light' ? '#374151' : '#94a3b8' }}>
                 In the Demo- ML is used to combine historical data, as well as live web crawling for context on events around the station (concerts/school holidays/ public holidays), this informs the likely platform movement patterns. Its primary goal is to balance the 'Combined Load'—a fusion of the train's known passenger count (APC data) and the platform's live density (LiDAR data). Aiming to increase boarding rate across all available carriage doors.
               </p>
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-full max-w-sm p-2 bg-slate-700/50 backdrop-blur-md rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-20">
@@ -215,7 +270,7 @@ const LandingPage = ({ onLaunch }) => {
 
           {/* MODIFIED: System in Action Section - now a 2x2 grid */}
           <div>
-            <h2 className="text-3xl font-bold text-center mb-8 text-sky-300">System in Action</h2>
+            <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#7dd3fc' }}>System in Action</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <Carousel 
                 title="Anonymized LiDAR Visualisations"
@@ -227,7 +282,8 @@ const LandingPage = ({ onLaunch }) => {
                 ]}
               />
               <Carousel 
-                title="Mobile App Nudge Visualisations"
+                title="Mobile App Nudge Visualisations 
+                (created to show potential consumer facing implementation)"
                 media={[
                   { type: 'image', src: '/assets/images/mobileapp1.png' },
                   { type: 'image', src: '/assets/images/mobileapp2.png' },
@@ -260,7 +316,7 @@ const LandingPage = ({ onLaunch }) => {
           
           {/* Usefulness to Operators Section */}
           <div>
-            <h2 className="text-3xl font-bold text-center mb-8 text-amber-300">Usefulness to Operators</h2>
+            <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#fcd34d' }}>Usefulness to Operators</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                 {/* ... (Unchanged) ... */}
                 <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">

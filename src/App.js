@@ -1,29 +1,26 @@
 // src/App.js
 import React, { useState } from 'react';
-import LandingPage from './components/Landing/LandingPage';
-import TrainDwellDashboard from './components/TrainDwellDashboard'; 
+// FIX #1: Correctly import from the LandingPage.js file
+import LandingPage from './components/Landing/LandingPage'; 
+import TrainDwellDashboard from './components/TrainDwellDashboard';
+// FIX #2: The file is named ThemeContext.js, not ThemeProvider
+import { ThemeProvider } from './contexts/ThemeContext'; 
 
 const App = () => {
   const [showDashboard, setShowDashboard] = useState(false);
 
-  const handleLaunch = () => {
-    setShowDashboard(true);
-  };
-
-  // NEW: Function to go back to the landing page
-  const handleGoBack = () => {
-    setShowDashboard(false);
-  };
+  const handleLaunch = () => setShowDashboard(true);
+  const handleGoBack = () => setShowDashboard(false);
 
   return (
-    <>
+    // Wrap the entire application with ThemeProvider
+    <ThemeProvider>
       {showDashboard ? (
-        // UPDATED: Pass the new function as a prop
         <TrainDwellDashboard onGoBack={handleGoBack} />
       ) : (
         <LandingPage onLaunch={handleLaunch} />
       )}
-    </>
+    </ThemeProvider>
   );
 };
 

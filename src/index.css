@@ -3,3 +3,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+  This is the new Theme System. 
+  All colors are defined here as variables.
+*/
+:root {
+  /* Dark Theme (Default) */
+  --bg-primary: #0f172a;      /* slate-900 */
+  --bg-secondary: #1e293b;   /* slate-800 */
+  --text-primary: #e2e8f0;    /* slate-200 */
+  --text-secondary: #94a3b8;  /* slate-400 */
+  --text-accent-sky: #7dd3fc; /* sky-300 */
+  --text-accent-amber: #fcd34d; /* amber-300 */
+  --border-primary: #334155;  /* slate-700 */
+  --button-primary: #0284c7;  /* sky-600 */
+  --button-secondary: #334155; /* slate-700 */
+}
+
+html.light {
+  /* Light Theme Overrides */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f1f5f9;   /* slate-100 */
+  --text-primary: #1e293b;    /* slate-800 */
+  --text-secondary: #475569;  /* slate-600 */
+  --text-accent-sky: #0369a1; /* sky-700 */
+  --text-accent-amber: #d97706; /* amber-600 */
+  --border-primary: #e2e8f0;  /* slate-200 */
+  --button-primary: #0ea5e9;  /* sky-500 */
+  --button-secondary: #e2e8f0; /* slate-200 */
+}
+
+/* Base body styles using the variables */
+body {
+  @apply font-serif transition-colors duration-300;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
